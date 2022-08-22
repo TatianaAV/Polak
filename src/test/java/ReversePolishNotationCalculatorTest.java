@@ -1,10 +1,6 @@
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.NoSuchElementException;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ReversePolishNotationCalculatorTest {
 
@@ -14,38 +10,64 @@ public class ReversePolishNotationCalculatorTest {
     public void shouldCalculateAddition() {
         String str = "4 3 +";
         int result = test.calculatePolishNotation(str);
-        assertEquals(7,result);
+        assertEquals(7,result,"Результат должен быть 7");
+        //Лучше указывать поясняющий комментарий последним параметром, как пример assertEquals(6,result,"Результат должен быть 7");
     }
 
     @Test
     public void shouldCalculateSubtraction() {
         String str = "4 3 -";
         int result = test.calculatePolishNotation(str);
-        assertEquals(1,result);
+        assertEquals(1,result,"Результат должен быть 1");
     }
 
     @Test
     public void shouldCalculateMultiplication() {
         String str = "1 2 *";
         int result = test.calculatePolishNotation(str);
-        assertEquals(2,result);
+        assertEquals(2,result,"Результат должен быть 2");
     }
 
     @Test
     public void shouldCalculateSpaces() {
         String str = "1   2   *";
         int result = test.calculatePolishNotation(str);
-        assertEquals(2,result);
+        assertEquals(2,result,"Результат должен быть 2");
     }
 
     @Test
     public void shouldCalculateNegativeNumbers() {
         String str = " -1   2   * ";
         int result = test.calculatePolishNotation(str);
-        assertEquals(-2,result);
+        assertEquals(-2,result,"Результат должен быть -2");
     }
-}
 
+
+    //Не хватает негативных тестов, на тот случай чтобы не выдавался ноль, когда реально система не может посчтать результат
+    @Test
+    public void noNumbersShouldThrowException(){
+        Exception exception = assertThrows(NumberFormatException.class, () -> {
+            String str = "/";
+            int result = test.calculatePolishNotation(str);
+        });
+
+        String expectedMessage = "";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage),"Метод не выдал ошибку");
+    }
+    
+    //Или вот такой вариант проверки на исключение
+    @Test
+    public void noActionsShouldThrowException(){
+        String str = "2 +";
+        Throwable exception = assertThrows(NoSuchElementException.class, () -> test.calculatePolishNotation(str));
+        assertEquals(null, exception.getMessage());
+    }
+
+}
+/*
+Этот класс тут не нужен
 class ReversePolishNotationCalculator {
 
     public int calculatePolishNotation(String str) {
@@ -92,3 +114,4 @@ class ReversePolishNotationCalculator {
         return false;
     }
 }
+*/
