@@ -7,6 +7,7 @@ import java.util.Deque;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReversePolishNotationCalculatorTest {
+
     private final ReversePolishNotationCalculator test = new ReversePolishNotationCalculator();
 
     @Test
